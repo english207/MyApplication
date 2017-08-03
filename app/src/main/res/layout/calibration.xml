@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" xmlns:kongqw="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:context="com.example.wto.myapplication.Calibration">
+
+    <com.example.wto.myapplication.compoment.NoClickSeekBarCalibration
+        android:id="@+id/no_click_seekbar_calibration"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin_left"
+        android:layout_marginEnd="@dimen/activity_vertical_margin_right"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:thumbOffset="15dp"
+        android:thumb="@drawable/big_seekbar"
+        android:background="@drawable/circle"
+        android:secondaryProgress="@android:integer/status_bar_notification_info_maxnum"
+        android:layout_alignParentBottom="true"
+    />
+
+
+    <TextView
+            android:id="@+id/no_click_seekbar_process_calibration"
+            android:layout_alignEnd="@+id/no_click_seekbar_calibration"
+            android:layout_alignTop="@+id/no_click_seekbar_calibration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_home"
+            android:gravity="center"
+    />
+
+    <TextView
+            android:id="@+id/whatAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/action"
+            android:textColor="#d61160"
+            android:textSize="20sp"
+    />
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="true"
+            android:orientation="vertical"
+    >
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+        >
+            <Button
+                    android:id="@+id/calibration_1"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/go_left_right"
+                    android:background="@drawable/button"
+            />
+            <Button
+                    android:id="@+id/calibration_2"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/forward_backward"
+                    android:background="@drawable/button"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+        >
+            <Button
+                    android:id="@+id/calibration_3"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/accelerator"
+                    android:background="@drawable/button"
+            />
+            <Button
+                    android:id="@+id/calibration_4"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/turn_left_right"
+                    android:background="@drawable/button"
+            />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
