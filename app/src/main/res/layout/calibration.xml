@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:orientation="vertical"
     >
@@ -64,6 +64,7 @@
                     android:layout_margin="10dp"
                     android:text="@string/go_left_right"
                     android:background="@drawable/button"
+                    android:onClick="passageListener"
             />
             <Button
                     android:id="@+id/calibration_2"
@@ -72,6 +73,7 @@
                     android:layout_margin="10dp"
                     android:text="@string/forward_backward"
                     android:background="@drawable/button"
+                    android:onClick="passageListener"
             />
         </LinearLayout>
 
@@ -87,6 +89,7 @@
                     android:layout_margin="10dp"
                     android:text="@string/accelerator"
                     android:background="@drawable/button"
+                    android:onClick="passageListener"
             />
             <Button
                     android:id="@+id/calibration_4"
@@ -95,6 +98,57 @@
                     android:layout_margin="10dp"
                     android:text="@string/turn_left_right"
                     android:background="@drawable/button"
+                    android:onClick="passageListener"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+        >
+            <Button
+                    android:id="@+id/calibration_5"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/accelerator"
+                    android:background="@drawable/button"
+                    android:onClick="passageListener"
+            />
+            <Button
+                    android:id="@+id/calibration_6"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/turn_left_right"
+                    android:background="@drawable/button"
+                    android:onClick="passageListener"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+        >
+            <Button
+                    android:id="@+id/calibration_7"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/accelerator"
+                    android:background="@drawable/button"
+                    android:onClick="passageListener"
+            />
+            <Button
+                    android:id="@+id/calibration_8"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/turn_left_right"
+                    android:background="@drawable/button"
+                    android:onClick="passageListener"
             />
         </LinearLayout>
 
