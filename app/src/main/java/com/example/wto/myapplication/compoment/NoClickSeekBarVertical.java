@@ -11,70 +11,68 @@ import android.widget.TextView;
  * Created by WTO on 2017/8/3 0003.
  *
  */
-public class NoClickSeekBarVertical extends android.support.v7.widget.AppCompatSeekBar {
-
-    private Context context;
-    private int oldsign;
-
-    private TextView textView;
+public class NoClickSeekBarVertical extends NoClickSeekBar {
 
     public NoClickSeekBarVertical(Context context) {
         super(context);
-        this.context = context;
-        init();
     }
 
     public NoClickSeekBarVertical(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.context = context;
-        init();
     }
 
     public NoClickSeekBarVertical(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-        init();
     }
 
-    private void init()
+    @Override
+    public void changeData(int progress) {
+        textView.setText(String.valueOf(progress));
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
     {
-        setOnSeekBarChangeListener(new OnSeekBarChangeListener()
+        super.onSizeChanged(h, w, oldh, oldw);
+    }
+
+    @Override
+    protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        super.onMeasure(heightMeasureSpec, widthMeasureSpec);
+        setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
+    }
+
+    @Override
+    protected synchronized void onDraw(Canvas canvas)
+    {
+        canvas.rotate(-90);
+        canvas.translate(-getHeight(), 0);
+        super.onDraw(canvas);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        if (!isEnabled())
         {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-            {
-                // TODO 自动生成的方法存根
-                if( progress>oldsign + 20 || progress<oldsign - 20)
-                {
-                    seekBar.setProgress(oldsign);
-                    return;
-                }
-                seekBar.setProgress(progress);
-                oldsign = progress;
+            return false;
+        }
 
-                textView.setText(String.valueOf(progress));
-            }
+        switch (event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_UP:
+                setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
+                onSizeChanged(getWidth(), getHeight(), 0, 0);
+                break;
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO 自动生成的方法存根
-                seekBar.setProgress(oldsign);
-            }
+            case MotionEvent.ACTION_CANCEL:
+                break;
+        }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO 自动生成的方法存根
-
-            }
-        });
-
-
+        return true;
     }
 
-    public void setTextView(TextView textView)
-    {
-        this.textView = textView;
-        oldsign = 50;
-        setProgress(50);        // 初始化50
-    }
 }

@@ -63,19 +63,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-         // Inflate the menu; this adds items to the action bar if it is present.
-         //填充选项菜单（读取XML文件、解析、加载到Menu组件上）
          getMenuInflater().inflate(R.menu.navigation, menu);
          return true;
     }
 
-    //重写OptionsItemSelected(MenuItem item)来响应菜单项(MenuItem)的点击事件（根据id来区分是哪个item）
+    //响应菜单项(MenuItem)的点击事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId())
         {
             case R.id.calibration_memu:
