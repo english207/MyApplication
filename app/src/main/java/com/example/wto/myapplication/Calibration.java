@@ -62,6 +62,7 @@ public class Calibration extends AppCompatActivity
     {
         Toast.makeText(this, "开始校准 " + passage.getName(), Toast.LENGTH_SHORT).show();
         noClickSeekBarCalibration.reset();
+        noClickSeekBarCalibration.setPassage(passage);
         whatAction.setText(passage.getName());
     }
 

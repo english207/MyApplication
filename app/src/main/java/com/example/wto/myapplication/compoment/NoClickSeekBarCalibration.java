@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.example.wto.myapplication.data.Passage;
+import com.example.wto.myapplication.data.SendData;
 
 /**
  * Created by WTO on 2017/8/3 0003.
@@ -40,8 +41,6 @@ public class NoClickSeekBarCalibration extends NoClickSeekBarVertical {
     public void changeData(int progress)
     {
         super.changeData(progress);
-
-
-
+        SendData.mapping[passage.getNum()] = progress;
     }
 }

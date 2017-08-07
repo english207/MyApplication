@@ -7,14 +7,14 @@ package com.example.wto.myapplication.data;
 
 public enum Passage
 {
-    ONE(1, "左右", 0, 2000),
-    TWO(2, "前后", 0, 2000),
-    THREE(3, "转向", 0, 2000),
-    FOUR(4, "油门", 0, 2000),
-    FIVE(5, "未知", 0, 2000),
-    SIX(6, "未知", 0, 2000),
-    SEVEN(7, "未知", 0, 2000),
-    EIGHT(8, "未知", 0, 2000);
+    ONE(1, "左右", 1000, 2000),
+    TWO(2, "前后", 1000, 2000),
+    THREE(3, "转向", 1000, 2000),
+    FOUR(4, "油门", 1000, 2000),
+    FIVE(5, "未知", 1000, 2000),
+    SIX(6, "未知", 1000, 2000),
+    SEVEN(7, "未知", 1000, 2000),
+    EIGHT(8, "未知", 1000, 2000);
 
     private int num;
     private String name;

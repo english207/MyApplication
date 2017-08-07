@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.example.rockerview.RockerView;
 import com.example.wto.myapplication.compoment.NoClickSeekBar;
 import com.example.wto.myapplication.compoment.NoClickSeekBarVertical;
+import com.example.wto.myapplication.connection.Connect2Px4;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -58,6 +60,17 @@ public class MainActivity extends AppCompatActivity
 
         NoClickSeekBarVertical noClickSeekBar_right = (NoClickSeekBarVertical) findViewById(R.id.no_click_seekbar_right);
         noClickSeekBar_right.setTextView((TextView) findViewById(R.id.no_click_seekbar_process_right));
+
+        try
+        {
+            Thread thread = new Thread(new Connect2Px4("192.168.1.30", 11332));
+            thread.start();
+        }
+        catch (Exception e)
+        {
+            Log.e("MainActivity", "created Connect2Px4 is fail, please check your network");
+            Toast.makeText(this, "created Connect2Px4 is fail, please check your network", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
