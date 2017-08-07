@@ -59,6 +59,7 @@ public class Connect2Px4 implements Runnable
                     sb.append(",");
                 }
                 String send_data = sb.substring(0, sb.lastIndexOf(","));
+                Log.d(TAG, String.format("send_data is %s", send_data));
                 out.println(send_data);
                 out.flush();
             }
@@ -73,7 +74,7 @@ public class Connect2Px4 implements Runnable
 
             try
             {
-                if (communicate_total % 50 == 0 && ping()) {
+                if (communicate_total % 50 == 0 && !ping()) {
                     init();
                     retry ++;
                     if (retry == retry_max) {       // when it on, stop the thread

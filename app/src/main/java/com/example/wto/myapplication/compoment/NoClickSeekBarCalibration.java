@@ -18,7 +18,7 @@ public class NoClickSeekBarCalibration extends NoClickSeekBarVertical {
 
     private static final String TAG = "calibration";
 
-    private Passage passage;
+    private Passage passage = Passage.ONE;
 
     public NoClickSeekBarCalibration(Context context) {
         super(context);

@@ -1,10 +1,12 @@
 package com.example.wto.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.os.Bundle;
+import android.os.*;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +28,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -55,16 +60,13 @@ public class MainActivity extends AppCompatActivity
             });
         }
 
-//        NoClickSeekBar noClickSeekBar_left = (NoClickSeekBar) findViewById(R.id.no_click_seekbar_left);
-//        noClickSeekBar_left.setTextView((TextView) findViewById(R.id.no_click_seekbar_process_left));
-
         NoClickSeekBarVertical noClickSeekBar_right = (NoClickSeekBarVertical) findViewById(R.id.no_click_seekbar_right);
         noClickSeekBar_right.setTextView((TextView) findViewById(R.id.no_click_seekbar_process_right));
 
         try
         {
-            Thread thread = new Thread(new Connect2Px4("192.168.1.30", 11332));
-            thread.start();
+            Connect2Px4 connect2Px4 = new Connect2Px4("192.168.1.29", 8000);
+            new Thread(connect2Px4).start();
         }
         catch (Exception e)
         {
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "created Connect2Px4 is fail, please check your network", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -136,4 +140,25 @@ public class MainActivity extends AppCompatActivity
         return message;
     }
 
+    class SendDataAsync extends AsyncTaskLoader
+    {
+        private Runnable runnable;
+        public SendDataAsync(Runnable runnable, Context context)
+        {
+            super(context);
+            this.runnable = runnable;
+        }
+
+        public SendDataAsync(Context context)
+        {
+            super(context);
+        }
+
+        @Override
+        public Object loadInBackground()
+        {
+            runnable.run();
+            return null;
+        }
+    }
 }
