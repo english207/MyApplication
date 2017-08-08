@@ -28,6 +28,8 @@
                 android:screenOrientation="landscape"
                 android:configChanges="orientation|keyboardHidden"
                     />
+
+        <service android:name=".connection.ConnectService"/>
     </application>
 
 </manifest>

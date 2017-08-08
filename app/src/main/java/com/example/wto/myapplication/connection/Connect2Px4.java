@@ -1,9 +1,9 @@
 package com.example.wto.myapplication.connection;
 
 import android.util.Log;
-import com.example.wto.myapplication.data.Passage;
 import com.example.wto.myapplication.data.SendData;
 
+import java.io.Closeable;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -15,7 +15,7 @@ public class Connect2Px4 implements Runnable
 {
     private static final String TAG = "Connect2Px4";
     private int communicate_total = 0;
-    private static final int interval = 100;
+    private static final int interval = 2;
     private static final int retry_max = 5;
     private int retry = 0;
     private String host;
@@ -27,13 +27,14 @@ public class Connect2Px4 implements Runnable
     {
         this.host = host;
         this.port = port;
-        init();
     }
 
     private void init() throws Exception
     {
         try
         {
+            close(server);
+            close(out);
             server = new Socket(host, port);
             out = new PrintWriter(server.getOutputStream());
         }
@@ -47,8 +48,15 @@ public class Connect2Px4 implements Runnable
     @Override
     public void run()
     {
+        try
+        {
+            init();
+        }
+        catch (Exception e) { e.printStackTrace(); }
+
         while (true)
         {
+            Log.e(TAG, "run");
             try
             {
                 StringBuilder sb = new StringBuilder();
@@ -59,7 +67,7 @@ public class Connect2Px4 implements Runnable
                     sb.append(",");
                 }
                 String send_data = sb.substring(0, sb.lastIndexOf(","));
-                Log.d(TAG, String.format("send_data is %s", send_data));
+//                Log.d(TAG, String.format("send_data is %s", send_data));
                 out.println(send_data);
                 out.flush();
             }
@@ -74,7 +82,7 @@ public class Connect2Px4 implements Runnable
 
             try
             {
-                if (communicate_total % 50 == 0 && !ping()) {
+                if (communicate_total % 200 == 0 && !ping()) {
                     init();
                     retry ++;
                     if (retry == retry_max) {       // when it on, stop the thread
@@ -92,7 +100,7 @@ public class Connect2Px4 implements Runnable
         try
         {
             if (server != null) {
-                server.sendUrgentData(0xFF);
+                // server.sendUrgentData(0xFF);
             }
             flag = true;
         }
@@ -102,5 +110,18 @@ public class Connect2Px4 implements Runnable
         }
         return flag;
     }
+
+    private void close(Closeable closeable)
+    {
+        if (closeable != null)
+        {
+            try
+            {
+                closeable.close();
+            }
+            catch (Exception e) { Log.e(TAG, "socket connect is lose"); }
+        }
+    }
+
 
 }
