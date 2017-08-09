@@ -3,13 +3,11 @@ package com.example.wto.myapplication;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.wto.myapplication.compoment.NoClickSeekBarCalibration;
-import com.example.wto.myapplication.connection.Connect2Px4;
 import com.example.wto.myapplication.data.Passage;
 
 /**
@@ -65,8 +63,8 @@ public class Calibration extends AppCompatActivity
     private void changePassage(Passage passage)
     {
         Toast.makeText(this, "开始校准 " + passage.getName(), Toast.LENGTH_SHORT).show();
-        noClickSeekBarCalibration.reset();
         noClickSeekBarCalibration.setPassage(passage);
+        noClickSeekBarCalibration.reset();
         whatAction.setText(passage.getName());
     }
 
