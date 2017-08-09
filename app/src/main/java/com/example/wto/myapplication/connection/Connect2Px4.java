@@ -18,7 +18,7 @@ public class Connect2Px4 implements Runnable
 {
     private static final String TAG = "Connect2Px4";
     private int communicate_total = 0;
-    private static final int interval = 50;
+    private static final int interval = 20;
     private static final int retry_max = 5;
     private int retry = 0;
     private String host;
