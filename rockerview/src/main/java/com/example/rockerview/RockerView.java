@@ -33,6 +33,7 @@ public class RockerView extends View {
     private CallBackMode mCallBackMode = CallBackMode.CALL_BACK_MODE_MOVE;
     private OnAngleChangeListener mOnAngleChangeListener;
     private OnShakeListener mOnShakeListener;
+    private OnDirectionChangeListener mOnDirectionChangeListener;
 
     private DirectionMode mDirectionMode;
     private Direction tempDirection = Direction.DIRECTION_CENTER;
@@ -291,6 +292,9 @@ public class RockerView extends View {
      * @return 摇杆实际显示的位置（点）
      */
     private Point getRockerPositionPoint(Point centerPoint, Point touchPoint, float regionRadius, float rockerRadius) {
+
+        Point showPoint;
+
         // 两点在X轴的距离
         float lenX = (float) (touchPoint.x - centerPoint.x);
         // 两点在Y轴距离
@@ -303,17 +307,27 @@ public class RockerView extends View {
         double angle = radian2Angle(radian);
 
         // 回调 返回参数
-        callBack(angle);
+//         callBack(angle);
 
         Logger.i(TAG, "getRockerPositionPoint: 角度 :" + angle);
-        if (lenXY + rockerRadius <= regionRadius) { // 触摸位置在可活动范围内
-            return touchPoint;
-        } else { // 触摸位置在可活动范围以外
-            // 计算要显示的位置
-            int showPointX = (int) (centerPoint.x + (regionRadius - rockerRadius) * Math.cos(radian));
-            int showPointY = (int) (centerPoint.y + (regionRadius - rockerRadius) * Math.sin(radian));
-            return new Point(showPointX, showPointY);
+        int showPointX;
+        int showPointY;
+        if (lenXY + rockerRadius <= regionRadius)   // 触摸位置在可活动范围内
+        {
+            showPoint = touchPoint;
         }
+        else
+        {
+            // 触摸位置在可活动范围以外
+            // 计算要显示的位置
+            showPointX = (int) (centerPoint.x + (regionRadius - rockerRadius) * Math.cos(radian));
+            showPointY = (int) (centerPoint.y + (regionRadius - rockerRadius) * Math.sin(radian));
+            showPoint =  new Point(showPointX, showPointY);
+            lenX = (float) (showPoint.x - centerPoint.x);
+            lenY = (float) (showPoint.y - centerPoint.y);
+        }
+        callBack2(lenX, lenY, centerPoint, regionRadius, rockerRadius);
+        return showPoint;
     }
 
     /**
@@ -370,6 +384,9 @@ public class RockerView extends View {
         }
         if (null != mOnShakeListener) {
             mOnShakeListener.onStart();
+        }
+        if (null != mOnDirectionChangeListener) {
+            mOnDirectionChangeListener.onStart();
         }
     }
 
@@ -568,6 +585,9 @@ public class RockerView extends View {
         }
     }
 
+
+
+
     /**
      * 回调
      * 结束
@@ -579,6 +599,9 @@ public class RockerView extends View {
         }
         if (null != mOnShakeListener) {
             mOnShakeListener.onFinish();
+        }
+        if (null != mOnDirectionChangeListener) {
+            mOnDirectionChangeListener.onFinish();
         }
     }
 
@@ -636,6 +659,10 @@ public class RockerView extends View {
         mOnAngleChangeListener = listener;
     }
 
+    public void setOnDirectionChangeListener(OnDirectionChangeListener listener) {
+        mOnDirectionChangeListener = listener;
+    }
+
     /**
      * 添加摇动的监听
      *
@@ -682,4 +709,40 @@ public class RockerView extends View {
         // 结束
         void onFinish();
     }
+
+    public class DirectionSize
+    {
+        public int left_right = 0;
+        public int forward_back = 0;
+
+        public DirectionSize(int left_right, int forward_back) {
+            this.left_right = left_right;
+            this.forward_back = forward_back;
+        }
+    }
+
+    private void callBack2(float lenX, float lenY, Point centerPoint, float regionRadius, float rockerRadius)
+    {
+        Logger.i(TAG, "onTouchEvent: 移动位置 : lenX = " + lenX + " lenY = " + lenY + " regionRadius = " + regionRadius + " rockerRadius = " + rockerRadius);
+        mOnDirectionChangeListener.direction(lenX, lenY, centerPoint, regionRadius, rockerRadius);
+    }
+
+    /**
+     * 摇动角度的监听接口
+     */
+    public interface OnDirectionChangeListener {
+        // 开始
+        void onStart();
+
+        /**
+         * 摇杆角度变化
+         *
+         */
+        void direction(float lenX, float lenY, Point centerPoint, float regionRadius, float rockerRadius);
+
+        // 结束
+        void onFinish();
+    }
+
+
 }
