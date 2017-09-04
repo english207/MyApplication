@@ -43,4 +43,10 @@ public class NoClickSeekBarCalibration extends NoClickSeekBarVertical {
         super.changeData(progress);
         SendData.mapping[passage.getNum()] = progress;
     }
+
+    @Override
+    public void reset() {
+        setOldsign(passage.getInit());
+        setProgress(passage.getInit());        // 初始化50
+    }
 }

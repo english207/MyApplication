@@ -76,4 +76,8 @@ public abstract class NoClickSeekBar extends android.support.v7.widget.AppCompat
         oldsign = 50;
         setProgress(50);        // 初始化50
     }
+
+    public void setOldsign(int oldsign) {
+        this.oldsign = oldsign;
+    }
 }

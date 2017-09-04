@@ -3,16 +3,17 @@ package com.example.wto.myapplication;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.*;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Window;
+import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.rockerview.RockerView;
 import com.example.wto.myapplication.compoment.NoClickSeekBarVertical;
+import com.example.wto.myapplication.compoment.RpiDirectionChangeListener;
 import com.example.wto.myapplication.compoment.ToastHandler;
 import com.example.wto.myapplication.connection.Connect2Px4;
 
@@ -26,14 +27,32 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        if(this.getResources().getConfiguration().orientation ==Configuration.ORIENTATION_PORTRAIT){
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
+        setView();
         setContentView(R.layout.activity_main);
 
         init();
         initService();
+    }
+
+    private void setCustomActionBar()
+    {
+        ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.title, null);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(mActionBarView, lp);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+    }
+
+    private void setView()
+    {
+        if(this.getResources().getConfiguration().orientation ==Configuration.ORIENTATION_PORTRAIT){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
+        setCustomActionBar();
     }
 
     private void init()
@@ -43,22 +62,7 @@ public class MainActivity extends AppCompatActivity
         if (rockerViewLeft != null)
         {
             rockerViewLeft.setCallBackMode(RockerView.CallBackMode.CALL_BACK_MODE_STATE_CHANGE);
-            rockerViewLeft.setOnAngleChangeListener(new RockerView.OnAngleChangeListener() {
-                @Override
-                public void onStart() {
-                    textView.setText(null);
-                }
-
-                @Override
-                public void angle(double angle) {
-                    textView.setText(String.valueOf(angle));
-                }
-
-                @Override
-                public void onFinish() {
-                    textView.setText(null);
-                }
-            });
+            rockerViewLeft.setOnDirectionChangeListener(new RpiDirectionChangeListener(textView));
         }
 
         NoClickSeekBarVertical noClickSeekBar_right = (NoClickSeekBarVertical) findViewById(R.id.no_click_seekbar_right);
@@ -71,17 +75,16 @@ public class MainActivity extends AppCompatActivity
         {
             toastHandler = new ToastHandler(this);
             Connect2Px4 connect2Px4 = new Connect2Px4("192.168.1.30", 8000, toastHandler);
-            new Thread(connect2Px4).start();
+//            new Thread(connect2Px4).start();
         }
         catch (Exception e) { Log.e(TAG, "create service is fail", e); }
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-         getMenuInflater().inflate(R.menu.navigation, menu);
-         return true;
+        getMenuInflater().inflate(R.menu.navigation, menu);
+        return true;
     }
 
     //响应菜单项(MenuItem)的点击事件
@@ -105,28 +108,6 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
       return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        // 检测屏幕的方向：纵向或横向
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-        {
-            //当前为横屏， 在此处添加额外的处理代码
-        }
-        else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
-            //当前为竖屏， 在此处添加额外的处理代码
-        }
-        //检测实体键盘的状态：推出或者合上
-        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO)
-        {
-            //实体键盘处于推出状态，在此处添加额外的处理代码
-        }
-        else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES)
-        {
-            //实体键盘处于合上状态，在此处添加额外的处理代码
-        }
     }
 
 //    @Override

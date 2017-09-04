@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">PX4</string>
     <string name="title_home">Home</string>
+    <string name="title_memu">校准</string>
+
     <string name="action">操作</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -13,4 +15,6 @@
     <string name="turn_left_right">转向 - 4</string>
 
     <string name="calibration">校准</string>
+
+
 </resources>
