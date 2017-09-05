@@ -3,10 +3,10 @@ package com.example.wto.myapplication;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.*;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.rockerview.RockerView;
 import com.example.wto.myapplication.compoment.NoClickSeekBarVertical;
 import com.example.wto.myapplication.compoment.RpiDirectionChangeListener;
+import com.example.wto.myapplication.compoment.TitleOnClickListener;
 import com.example.wto.myapplication.compoment.ToastHandler;
 import com.example.wto.myapplication.connection.Connect2Px4;
 
@@ -44,6 +45,12 @@ public class MainActivity extends AppCompatActivity
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
+
+        Toolbar parent =(Toolbar) mActionBarView.getParent();
+        parent.setContentInsetsAbsolute(0,0);
+
+        TextView textView = (TextView) findViewById(R.id.text_title);
+        textView.setOnClickListener(new TitleOnClickListener(this));
     }
 
     private void setView()
@@ -83,7 +90,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.navigation, menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.navigation, menu);
         return true;
     }
 

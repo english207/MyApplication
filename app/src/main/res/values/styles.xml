@@ -8,4 +8,26 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- 自定义的ActionBar Style-->
+    <style name="CustomActionBarStyle" parent="Theme.AppCompat.Light">
+        <item name="android:contentInsetEnd">0dp</item><!--右边距为0-->
+        <item name="android:contentInsetStart">0dp</item><!--左边距为0-->
+    </style>
+    　　<!-- 自定义的Theme-->
+    <style name="CustomTheme" parent="Theme.AppCompat.Light">
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--<item name="android:colorAccent">@color/colorAccent</item>-->
+        <item name="android:actionBarSize">52dp</item><!--设置ActionBar的高度-->
+        <item name="android:actionBarStyle">@style/CustomActionBarStyle</item>
+        <!--<item name="android:statusBarColor">#ed4255</item>&lt;!&ndash;效果和colorPrimary一样&ndash;&gt;-->
+        <item name="android:windowLightStatusBar">true</item><!--设置StatusBar上Icon高亮-->
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+
+    <style name="popup_window_anim">
+        <item name="android:windowEnterAnimation">@anim/in</item>
+        <item name="android:windowExitAnimation">@anim/out</item>
+    </style>
+
 </resources>
