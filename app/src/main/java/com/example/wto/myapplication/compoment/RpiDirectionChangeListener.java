@@ -42,14 +42,16 @@ public class RpiDirectionChangeListener implements RockerView.OnDirectionChangeL
         int turnX = Float.valueOf((X - rockerRadius) / last * 100).intValue();
         int turnY = Float.valueOf((Y - rockerRadius) / last * 100).intValue();
 
-        textView.setText("X = " + X + " Y = " + Y + " turnX = " + turnX + " turnY = " + turnY + " last = " + last);
         SendData.mapping[Passage.ONE.getNum()] = turnX;
         SendData.mapping[Passage.TWO.getNum()] = turnY;
+        textView.setText("turnX = " + turnX + " turnY = " + turnY);
     }
 
     @Override
     public void onFinish()
     {
         textView.setText(null);
+        SendData.mapping[Passage.ONE.getNum()] = Passage.ONE.getInit();
+        SendData.mapping[Passage.TWO.getNum()] = Passage.TWO.getInit();
     }
 }

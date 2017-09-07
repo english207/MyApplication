@@ -6,6 +6,8 @@ package com.example.wto.myapplication.data;
  */
 public class SendData
 {
+    public static String host = "192.168.1.30";
+    public static int port = 8000;
     // 映射
     public static int[] mapping = new int[Passage.values().length];
     static

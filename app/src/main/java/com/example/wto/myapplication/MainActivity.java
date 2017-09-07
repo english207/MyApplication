@@ -9,20 +9,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.rockerview.RockerView;
-import com.example.wto.myapplication.compoment.NoClickSeekBarVertical;
-import com.example.wto.myapplication.compoment.RpiDirectionChangeListener;
-import com.example.wto.myapplication.compoment.TitleOnClickListener;
-import com.example.wto.myapplication.compoment.ToastHandler;
+import com.example.wto.myapplication.compoment.*;
 import com.example.wto.myapplication.connection.Connect2Px4;
+import com.example.wto.myapplication.data.Passage;
+import com.example.wto.myapplication.data.SendData;
 
 public class MainActivity extends AppCompatActivity
 {
     private TextView textView;
     private ToastHandler toastHandler;
     private static final String TAG = "MainActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity
 
         TextView textView = (TextView) findViewById(R.id.text_title);
         textView.setOnClickListener(new TitleOnClickListener(this));
+        textView.setText(SendData.host);
     }
 
     private void setView()
@@ -58,7 +60,6 @@ public class MainActivity extends AppCompatActivity
         if(this.getResources().getConfiguration().orientation ==Configuration.ORIENTATION_PORTRAIT){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
-
         setCustomActionBar();
     }
 
@@ -72,8 +73,16 @@ public class MainActivity extends AppCompatActivity
             rockerViewLeft.setOnDirectionChangeListener(new RpiDirectionChangeListener(textView));
         }
 
-        NoClickSeekBarVertical noClickSeekBar_right = (NoClickSeekBarVertical) findViewById(R.id.no_click_seekbar_right);
+        NoClickSeekBarMotor noClickSeekBar_right = (NoClickSeekBarMotor) findViewById(R.id.no_click_seekbar_right);
         noClickSeekBar_right.setTextView((TextView) findViewById(R.id.no_click_seekbar_process_right));
+        noClickSeekBar_right.reset();
+
+        Button button_left = (Button) findViewById(R.id.turn_left);
+        Button button_right = (Button) findViewById(R.id.turn_right);
+
+        button_left.setOnClickListener(new TurnOnClickListener(Passage.THREE, -5));
+        button_right.setOnClickListener(new TurnOnClickListener(Passage.THREE, 5));
+
     }
 
     private void initService()
@@ -81,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         try
         {
             toastHandler = new ToastHandler(this);
-            Connect2Px4 connect2Px4 = new Connect2Px4("192.168.1.30", 8000, toastHandler);
+            Connect2Px4 connect2Px4 = new Connect2Px4(SendData.host, SendData.port, toastHandler);
 //            new Thread(connect2Px4).start();
         }
         catch (Exception e) { Log.e(TAG, "create service is fail", e); }

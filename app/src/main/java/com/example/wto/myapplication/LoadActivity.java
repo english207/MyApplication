@@ -1,16 +1,17 @@
 package com.example.wto.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.*;
+import com.example.wto.myapplication.data.SendData;
 
 /**
  * Created by WTO on 2017/9/2 0002.
  *
  */
-
 public class LoadActivity extends AppCompatActivity
 {
     @Override
@@ -30,6 +31,9 @@ public class LoadActivity extends AppCompatActivity
 
     private void init()
     {
+        SharedPreferences read  = getSharedPreferences("data", MODE_PRIVATE);
+        SendData.host = read.getString("host", "192.168.1.30");
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable()
         {
