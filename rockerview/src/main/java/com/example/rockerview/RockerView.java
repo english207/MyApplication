@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.FloatRange;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -84,7 +85,6 @@ public class RockerView extends View {
     private Bitmap mRockerBitmap;
     private int mRockerColor;
 
-
     public RockerView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -107,6 +107,8 @@ public class RockerView extends View {
         mCenterPoint = new Point();
         // 摇杆位置
         mRockerPosition = new Point();
+
+        setAlpha(0.5f);
     }
 
 
