@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity
     private ToastHandler toastHandler;
     private static final String TAG = "MainActivity";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
