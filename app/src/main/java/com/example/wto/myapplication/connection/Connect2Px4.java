@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import com.example.wto.myapplication.data.Passage;
 import com.example.wto.myapplication.data.SendData;
 
 import java.io.Closeable;
@@ -81,12 +82,19 @@ public class Connect2Px4 implements Runnable
             try
             {
                 StringBuilder sb = new StringBuilder();
-                for (int size : SendData.mapping)
+                for (Passage passage : Passage.values())
                 {
-                    int passage_data = size * 10 + 1000;
+                    int passage_data = SendData.mapping[passage.getNum()] * passage.getRetractable() + 1000;
                     sb.append(passage_data);
                     sb.append(",");
                 }
+//
+//                for (int size : SendData.mapping)
+//                {
+//                    int passage_data = size  + 1000;
+//                    sb.append(passage_data);
+//                    sb.append(",");
+//                }
                 String send_data = sb.substring(0, sb.lastIndexOf(","));
 //                Log.d(TAG, String.format("send_data is %s", send_data));
                 out.println(send_data);

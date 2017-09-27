@@ -38,4 +38,6 @@ public class NoClickSeekBarMotor extends NoClickSeekBarVertical
     public void reset() {
         setProgress(passage.getInit());
     }
+
+
 }

@@ -23,7 +23,7 @@
                 android:layout_alignParentBottom="true"
                 kongqw:areaBackground="@drawable/default_area_bg"
                 kongqw:rockerBackground="@drawable/default_rocker_bg"
-                kongqw:rockerRadius="30dp" />
+                kongqw:rockerRadius="30dp"/>
         <!--<com.example.wto.myapplication.compoment.NoClickSeekBar-->
         <!--android:id="@+id/no_click_seekbar_left"-->
         <!--android:layout_width="200dp"-->
@@ -75,6 +75,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:progress="0"
+                android:max="200"
         />
 
         <LinearLayout
