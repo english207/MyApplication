@@ -6,14 +6,14 @@ package com.example.wto.myapplication.data;
  */
 public enum Passage
 {
-    ONE(0, "左右", 1000, 2000, 500, 10),
-    TWO(1, "前后", 1000, 2000, 500, 10),
-    THREE(2, "转向", 1000, 2000, 500, 10),
+    ONE(0, "左右", 1000, 2000, 50, 10),
+    TWO(1, "前后", 1000, 2000, 50, 10),
+    THREE(2, "转向", 1000, 2000, 50, 10),
     FOUR(3, "油门", 1000, 2000, 0, 1),
-    FIVE(4, "未知", 1000, 2000, 500, 10),
-    SIX(5, "未知", 1000, 2000, 500, 10),
-    SEVEN(6, "未知", 1000, 2000, 500, 10),
-    EIGHT(7, "未知", 1000, 2000, 500, 10);
+    FIVE(4, "未知", 1000, 2000, 50, 10),
+    SIX(5, "未知", 1000, 2000, 50, 10),
+    SEVEN(6, "未知", 1000, 2000, 50, 10),
+    EIGHT(7, "未知", 1000, 2000, 50, 10);
 
     private int num;
     private String name;
@@ -79,4 +79,6 @@ public enum Passage
     public void setRetractable(int retractable) {
         this.retractable = retractable;
     }
+
+
 }

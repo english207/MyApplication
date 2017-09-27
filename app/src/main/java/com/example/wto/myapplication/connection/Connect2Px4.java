@@ -27,6 +27,7 @@ public class Connect2Px4 implements Runnable
     private Socket server = null;
     private PrintWriter out = null;
     private boolean isCanRun = false;
+    private Passage[] passages = {Passage.ONE, Passage.TWO, Passage.THREE, Passage.FOUR, Passage.FIVE, Passage.SIX, Passage.SEVEN, Passage.EIGHT};
 
     private Handler handler;
 
@@ -82,21 +83,22 @@ public class Connect2Px4 implements Runnable
             try
             {
                 StringBuilder sb = new StringBuilder();
-                for (Passage passage : Passage.values())
+                for (int i = 0; i < SendData.mapping.length; i++)
                 {
-                    int passage_data = SendData.mapping[passage.getNum()] * passage.getRetractable() + 1000;
+                    int passage_data = SendData.mapping[i] * passages[i].getRetractable() + 1000;
                     sb.append(passage_data);
                     sb.append(",");
                 }
-//
+                String send_data = sb.substring(0, sb.lastIndexOf(","));
+                Log.d(TAG, String.format("send_data is %s", send_data));
+//                StringBuilder sb = new StringBuilder();
 //                for (int size : SendData.mapping)
 //                {
-//                    int passage_data = size  + 1000;
+//                    int passage_data = size * 10 + 1000;
 //                    sb.append(passage_data);
 //                    sb.append(",");
 //                }
-                String send_data = sb.substring(0, sb.lastIndexOf(","));
-//                Log.d(TAG, String.format("send_data is %s", send_data));
+//                String send_data = sb.substring(0, sb.lastIndexOf(","));
                 out.println(send_data);
                 out.flush();
             }
