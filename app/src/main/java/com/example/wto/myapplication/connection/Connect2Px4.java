@@ -22,7 +22,7 @@ public class Connect2Px4 implements Runnable
     private static final int interval_ping = 20;
     private static final int interval = 50;
     private static final int retry_max = 5;
-    private static final int retry_interval = 5000;
+    private static final int retry_interval = 3000;
     private int retry = 0;
     private Socket server = null;
     private PrintWriter out = null;
