@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         {
             toastHandler = new ToastHandler(this);
             Connect2Px4 connect2Px4 = new Connect2Px4(SendData.host, SendData.port, toastHandler);
-            new Thread(connect2Px4).start();
+//            new Thread(connect2Px4).start();
         }
         catch (Exception e) { Log.e(TAG, "create service is fail", e); }
     }

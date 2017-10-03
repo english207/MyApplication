@@ -15,6 +15,12 @@
     <string name="turn_left_right">转向 - 4</string>
 
     <string name="calibration">校准</string>
+    <string name="sure">确定</string>
+    <string name="cancle">取消</string>
+    <string name="ip_address">IP地址</string>
+
+    <string name="save_address_success">保存IP地址成功</string>
+    <string name="save_address_fail">保存IP地址失败</string>
 
 
 </resources>

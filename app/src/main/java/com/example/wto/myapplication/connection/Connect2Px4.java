@@ -19,27 +19,28 @@ public class Connect2Px4 implements Runnable
 {
     private static final String TAG = "Connect2Px4";
     private int communicate_total = 0;
+    private static final int interval_ping = 20;
     private static final int interval = 50;
     private static final int retry_max = 5;
+    private static final int retry_interval = 5000;
     private int retry = 0;
-    private String host;
-    private Integer port;
     private Socket server = null;
     private PrintWriter out = null;
-    private boolean isCanRun = false;
+    public static boolean isCanRun = false;
+    private static boolean isRetry = true;
     private Passage[] passages = {Passage.ONE, Passage.TWO, Passage.THREE, Passage.FOUR, Passage.FIVE, Passage.SIX, Passage.SEVEN, Passage.EIGHT};
 
     private Handler handler;
 
-    public Connect2Px4(String host, Integer port, Handler handler) throws Exception
+    public Connect2Px4(Handler handler) throws Exception
     {
-        this.host = host;
-        this.port = port;
         this.handler = handler;
     }
 
     private void init() throws Exception
     {
+        String host = SendData.host;
+        int port = SendData.port;
         try
         {
             close(server);
@@ -71,55 +72,55 @@ public class Connect2Px4 implements Runnable
     @Override
     public void run()
     {
-        try
+        while (isRetry)
         {
-            init();
-        }
-        catch (Exception e) { e.printStackTrace(); }
-
-        while (isCanRun)
-        {
-            Log.e(TAG, "run");
             try
             {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < SendData.mapping.length; i++)
-                {
-                    int passage_data = SendData.mapping[i] * passages[i].getRetractable() + 1000;
-                    sb.append(passage_data);
-                    sb.append(",");
-                }
-                String send_data = sb.substring(0, sb.lastIndexOf(","));
-                Log.d(TAG, String.format("send_data is %s", send_data));
-//                StringBuilder sb = new StringBuilder();
-//                for (int size : SendData.mapping)
-//                {
-//                    int passage_data = size * 10 + 1000;
-//                    sb.append(passage_data);
-//                    sb.append(",");
-//                }
-//                String send_data = sb.substring(0, sb.lastIndexOf(","));
-                out.println(send_data);
-                out.flush();
-            }
-            catch (Exception e) { Log.e(TAG, "send_data is fail", e); }
-
-            communicate_total ++;
-            try
-            {
-                Thread.sleep(interval);
+                init();
             }
             catch (Exception e) { e.printStackTrace(); }
 
-            try
+            while (isCanRun)
             {
-                if (communicate_total % 200 == 0 && !ping()) {
-                    init();
-                    retry ++;
-                    if (retry == retry_max) {       // when it on, stop the thread
-                        break;
+                try
+                {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < SendData.mapping.length; i++)
+                    {
+                        int passage_data = SendData.mapping[i] * passages[i].getRetractable() + 1000;
+                        sb.append(passage_data);
+                        sb.append(",");
+                    }
+                    String send_data = sb.substring(0, sb.lastIndexOf(","));
+                    // Log.d(TAG, String.format("send_data is %s", send_data));
+                    out.println(send_data);
+                    out.flush();
+                }
+                catch (Exception e) { Log.e(TAG, "send_data is fail", e); }
+
+                communicate_total ++;
+                try
+                {
+                    Thread.sleep(interval);
+                }
+                catch (Exception e) { e.printStackTrace(); }
+
+                try
+                {
+                    if (communicate_total % interval_ping == 0 && !ping()) {
+                        init();
+                        retry ++;
+                        if (retry == retry_max) {       // when it on, stop the thread
+                            break;
+                        }
                     }
                 }
+                catch (Exception e) { e.printStackTrace(); }
+            }
+
+            try
+            {
+                Thread.sleep(retry_interval);
             }
             catch (Exception e) { e.printStackTrace(); }
         }
