@@ -27,7 +27,7 @@ public class Connect2Px4 implements Runnable
     private Socket server = null;
     private PrintWriter out = null;
     public static boolean isCanRun = false;
-    private static boolean isRetry = true;
+    private static final boolean isRetry = true;
     private Passage[] passages = {Passage.ONE, Passage.TWO, Passage.THREE, Passage.FOUR, Passage.FIVE, Passage.SIX, Passage.SEVEN, Passage.EIGHT};
 
     private Handler handler;

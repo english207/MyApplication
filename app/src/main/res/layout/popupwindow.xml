@@ -23,14 +23,14 @@
             android:layout_alignParentBottom="true"
             >
             <Button
-                    android:id="@+id/change_ip_sure"
+                    android:id="@+id/change_ip_cancle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/cancle"
                     />
             <Button
-                    android:id="@+id/change_ip_cancle"
+                    android:id="@+id/change_ip_sure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -13,6 +13,8 @@
     <string name="forward_backward">前后 - 2</string>
     <string name="accelerator">油门 - 3</string>
     <string name="turn_left_right">转向 - 4</string>
+    <string name="model">模式</string>
+    <string name="kill_switch">开关</string>
 
     <string name="calibration">校准</string>
     <string name="sure">确定</string>

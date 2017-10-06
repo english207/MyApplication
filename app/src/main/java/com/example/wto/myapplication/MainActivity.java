@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.rockerview.RockerView;
@@ -20,15 +21,13 @@ import com.example.wto.myapplication.data.SendData;
 
 public class MainActivity extends AppCompatActivity
 {
-    private TextView textView;
-    private ToastHandler toastHandler;
     private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setView();
+        setThemeView();
         setContentView(R.layout.activity_main);
 
         init();
@@ -40,21 +39,24 @@ public class MainActivity extends AppCompatActivity
         ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
         View mActionBarView = LayoutInflater.from(this).inflate(R.layout.title, null);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(mActionBarView, lp);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
+        if (actionBar != null)
+        {
+            actionBar.setCustomView(mActionBarView, lp);
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
 
-        Toolbar parent =(Toolbar) mActionBarView.getParent();
-        parent.setContentInsetsAbsolute(0,0);
+            Toolbar parent =(Toolbar) mActionBarView.getParent();
+            parent.setContentInsetsAbsolute(0,0);
 
-        TextView textView = (TextView) findViewById(R.id.text_title);
-        textView.setOnClickListener(new TitleOnClickListener(this));
-        textView.setText(SendData.host);
+            TextView textView = (TextView) findViewById(R.id.text_title);
+            textView.setOnClickListener(new TitleOnClickListener(this));
+            textView.setText(SendData.host);
+        }
     }
 
-    private void setView()
+    private void setThemeView()
     {
         if(this.getResources().getConfiguration().orientation ==Configuration.ORIENTATION_PORTRAIT){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity
 
     private void init()
     {
-        textView = (TextView) findViewById(R.id.no_click_seekbar_process_left);
+        TextView textView = (TextView) findViewById(R.id.no_click_seekbar_process_left);
         RockerView rockerViewLeft = (RockerView) findViewById(R.id.no_click_seekbar_left);
         if (rockerViewLeft != null)
         {
@@ -82,15 +84,21 @@ public class MainActivity extends AppCompatActivity
         button_left.setOnClickListener(new TurnOnClickListener(Passage.THREE, -5));
         button_right.setOnClickListener(new TurnOnClickListener(Passage.THREE, 5));
 
+        Switch passage_model = (Switch) findViewById(R.id.passage_model);
+        passage_model.setOnCheckedChangeListener(new ModelOnCheckedChangeListener(this, Passage.FIVE));
+
+        Switch passage_switch = (Switch) findViewById(R.id.passage_switch);
+        passage_switch.setOnCheckedChangeListener(new KillSwitchOnCheckedChangeListener(this, Passage.SIX));
+
     }
 
     private void initService()
     {
         try
         {
-            toastHandler = new ToastHandler(this);
-            Connect2Px4 connect2Px4 = new Connect2Px4(SendData.host, SendData.port, toastHandler);
-//            new Thread(connect2Px4).start();
+            ToastHandler toastHandler = new ToastHandler(this);
+            Connect2Px4 connect2Px4 = new Connect2Px4(toastHandler);
+            new Thread(connect2Px4).start();
         }
         catch (Exception e) { Log.e(TAG, "create service is fail", e); }
     }

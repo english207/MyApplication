@@ -101,6 +101,57 @@
                     android:background="@drawable/button"
             />
         </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="40dp"
+                android:orientation="vertical"
+        >
+            <Switch
+                    android:id="@+id/passage_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:switchMinWidth="40dp"
+                    android:thumb="@drawable/selector_thumb"
+                    android:track="@drawable/selector_track" />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/model"
+            />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="40dp"
+                android:orientation="vertical"
+                >
+            <Switch
+                    android:id="@+id/passage_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:switchMinWidth="40dp"
+                    android:thumb="@drawable/selector_thumb"
+                    android:track="@drawable/selector_track" />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/model"
+                    />
+
+        </LinearLayout>
+
+
+
     </RelativeLayout>
 
 </LinearLayout>

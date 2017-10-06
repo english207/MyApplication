@@ -8,10 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.PopupWindow;
-import android.widget.Toast;
+import android.widget.*;
 import com.example.wto.myapplication.R;
+import com.example.wto.myapplication.connection.Connect2Px4;
 import com.example.wto.myapplication.data.SendData;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -48,8 +47,9 @@ public class TitleOnClickListener implements View.OnClickListener
 
         Button change_ip_sure = popupView.findViewById(R.id.change_ip_sure);
         Button change_ip_cancle = popupView.findViewById(R.id.change_ip_cancle);
-
-        change_ip_sure.setOnClickListener(new ClickSureOnclickListener(window));
+        EditText change_ip = popupView.findViewById(R.id.change_ip);
+        change_ip.setText(SendData.host);
+        change_ip_sure.setOnClickListener(new ClickSureOnclickListener(window, change_ip));
         change_ip_cancle.setOnClickListener(new ClickDismissOnclickListener(window));
 
         window.showAtLocation(view, Gravity.CENTER, 0 , 0);
@@ -92,18 +92,29 @@ public class TitleOnClickListener implements View.OnClickListener
     private class ClickSureOnclickListener implements View.OnClickListener
     {
         private TitlePopupWindow window;
-        private ClickSureOnclickListener(TitlePopupWindow window) {
+        private EditText change_ip;
+        private ClickSureOnclickListener(TitlePopupWindow window, EditText change_ip) {
             this.window = window;
+            this.change_ip = change_ip;
         }
 
         @Override
         public void onClick(View view) {
+            SendData.host = change_ip.getText().toString();
             SharedPreferences.Editor editor = context.getSharedPreferences("data", MODE_PRIVATE).edit();
             editor.putString("host", SendData.host);
-            if (editor.commit()) {
+
+            if (editor.commit())
+            {
+                AppCompatActivity activity = (AppCompatActivity) context;
+                TextView title = (TextView) activity.findViewById(R.id.text_title);
+                title.setText(SendData.host);
+
+                Connect2Px4.isCanRun = false;
                 Toast.makeText(context, R.string.save_address_success, Toast.LENGTH_SHORT).show();
             }
-            else {
+            else
+                {
                 Toast.makeText(context, R.string.save_address_fail, Toast.LENGTH_SHORT).show();
             }
             window.dismiss();
